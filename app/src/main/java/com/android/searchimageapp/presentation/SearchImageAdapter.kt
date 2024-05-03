@@ -2,6 +2,7 @@ package com.android.searchimageapp.presentation
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import com.android.searchimageapp.data.Document
 import com.android.searchimageapp.databinding.RecyclerviewItemBinding
@@ -13,7 +14,8 @@ class SearchImageAdapter(val data: List<Document>): RecyclerView.Adapter<SearchI
     }
 
     override fun onBindViewHolder(holder: SearchImageAdapter.Holder, position: Int) {
-        TODO("Not yet implemented")
+        val currentItem = data[position]
+        holder.bind(currentItem)
     }
 
     override fun getItemCount(): Int {
@@ -23,7 +25,9 @@ class SearchImageAdapter(val data: List<Document>): RecyclerView.Adapter<SearchI
     class Holder(private val binding: RecyclerviewItemBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Document) {
             binding.apply {
-                imgItem
+                imgItem.setImageURI(item.imageUrl.toUri())
+                tvItemSite.text = item.siteName
+                tvItemDate.text = item.dateTime
             }
         }
     }

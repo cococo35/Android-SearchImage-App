@@ -23,5 +23,5 @@ data class Document(
     @SerializedName("height") val height: Int,
     @SerializedName("display_sitename") val siteName: String,
     @SerializedName("doc_url") val docUrl: String,
-    @SerializedName("datetime") val dateTime: Datetime
+    @SerializedName("datetime") val dateTime: String    // Datetime
 )
