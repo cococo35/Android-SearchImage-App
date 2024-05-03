@@ -2,6 +2,7 @@ package com.android.searchimageapp
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -18,7 +19,7 @@ class SearchFragment : Fragment() {
     private lateinit var _binding: FragmentSearchBinding
     private val binding get() = _binding
     var items = listOf<Document>()
-//    private val searchImageAdapter by lazy { SearchImageAdapter(items) }
+    private val searchImageAdapter by lazy { SearchImageAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,17 +41,8 @@ class SearchFragment : Fragment() {
                 saveData()
 
                 communicateNetWork(setUpSearchParam(binding.edSearch.text.toString()))
-                // items = responseData.searchDocuments
 
             }
-        }
-
-//        val searchImageAdapter = SearchImageAdapter(items)
-
-        binding.recyclerviewSearch.apply {
-//            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            adapter = SearchImageAdapter(items)
-            layoutManager = LinearLayoutManager(requireContext())
         }
 
         loadData()
@@ -68,18 +60,22 @@ class SearchFragment : Fragment() {
         binding.edSearch.setText(pref.getString("name", ""))
     }
 
-//    @SuppressLint("NotifyDataSetChanged")
+    @SuppressLint("NotifyDataSetChanged")
     private fun communicateNetWork(param: HashMap<String, String>) = lifecycleScope.launch {
         val responseData = NetWorkClient.searchNetWork.getSearch(param)
-        items = responseData.searchDocuments
-//        searchImageAdapter.notifyDataSetChanged()
+        binding.recyclerviewSearch.apply {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            adapter = searchImageAdapter
+            searchImageAdapter.data = responseData.searchDocuments
+            searchImageAdapter.notifyDataSetChanged()
+        }
     }
 
     private fun setUpSearchParam(search: String): HashMap<String, String> {
         return hashMapOf(
             "query" to search, // edittext에서 입력한 값 넣기
             "page" to "1",
-            "size" to "50" // 80
+            "size" to "80"
         )
     }
 }
