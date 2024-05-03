@@ -13,6 +13,7 @@ object NetWorkClient {
 
     private fun createOkHttpClient(): OkHttpClient {
         val interceptor = HttpLoggingInterceptor()
+        interceptor.level = HttpLoggingInterceptor.Level.BODY
 
         return OkHttpClient.Builder()
             .connectTimeout(20, TimeUnit.SECONDS)

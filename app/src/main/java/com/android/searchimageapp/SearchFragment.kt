@@ -1,5 +1,6 @@
 package com.android.searchimageapp
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -17,7 +18,7 @@ class SearchFragment : Fragment() {
     private lateinit var _binding: FragmentSearchBinding
     private val binding get() = _binding
     var items = listOf<Document>()
-    private val searchImageAdapter by lazy { SearchImageAdapter(items) }
+//    private val searchImageAdapter by lazy { SearchImageAdapter(items) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,15 +39,18 @@ class SearchFragment : Fragment() {
             btnSearch.setOnClickListener {
                 saveData()
 
-                communicateNetWork(setUpSearchParam(binding.edSearch.text.toString())) // items = responseData.response.searchDocuments
+                communicateNetWork(setUpSearchParam(binding.edSearch.text.toString()))
+                // items = responseData.searchDocuments
 
             }
         }
 
-        binding.recyclerviewSearch.apply {
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            adapter = searchImageAdapter
+//        val searchImageAdapter = SearchImageAdapter(items)
 
+        binding.recyclerviewSearch.apply {
+//            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            adapter = SearchImageAdapter(items)
+            layoutManager = LinearLayoutManager(requireContext())
         }
 
         loadData()
@@ -64,10 +68,11 @@ class SearchFragment : Fragment() {
         binding.edSearch.setText(pref.getString("name", ""))
     }
 
+//    @SuppressLint("NotifyDataSetChanged")
     private fun communicateNetWork(param: HashMap<String, String>) = lifecycleScope.launch {
         val responseData = NetWorkClient.searchNetWork.getSearch(param)
-
-        items = responseData.response.searchDocuments
+        items = responseData.searchDocuments
+//        searchImageAdapter.notifyDataSetChanged()
     }
 
     private fun setUpSearchParam(search: String): HashMap<String, String> {

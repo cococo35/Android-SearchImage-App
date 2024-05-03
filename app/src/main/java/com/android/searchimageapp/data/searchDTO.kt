@@ -2,7 +2,7 @@ package com.android.searchimageapp.data
 
 import com.google.gson.annotations.SerializedName
 
-data class searchDTO(val response: SearchResponse)
+//data class searchDTO(val response: SearchResponse)
 
 data class SearchResponse(
     @SerializedName("meta") val searchMeta: Meta,
