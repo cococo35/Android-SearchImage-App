@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="150dp"
+    android:layout_width="155dp"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/img_item"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="155dp"
+        android:layout_height="155dp"
         android:background="@drawable/ic_launcher_background"
         android:layout_marginTop="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatImageButton
-        android:id="@+id/btn_item"
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/img_item_heart"
         android:layout_width="40dp"
         android:layout_height="40dp"
+        android:background="@drawable/heart"
+        android:visibility="gone"
         android:layout_marginEnd="5dp"
         android:layout_marginTop="15dp"
         app:layout_constraintEnd_toEndOf="parent"

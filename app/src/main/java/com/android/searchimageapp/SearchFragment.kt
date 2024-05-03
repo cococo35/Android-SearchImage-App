@@ -7,8 +7,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.android.searchimageapp.data.Document
 import com.android.searchimageapp.databinding.FragmentSearchBinding
 import com.android.searchimageapp.presentation.SearchImageAdapter
@@ -18,8 +19,8 @@ import kotlinx.coroutines.launch
 class SearchFragment : Fragment() {
     private lateinit var _binding: FragmentSearchBinding
     private val binding get() = _binding
-    var items = listOf<Document>()
-    private val searchImageAdapter by lazy { SearchImageAdapter() }
+    private var items = listOf<Document>()
+    private val searchImageAdapter by lazy { SearchImageAdapter{selectedItem -> adapterOnClick(selectedItem)} }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,13 +40,12 @@ class SearchFragment : Fragment() {
         binding.apply {
             btnSearch.setOnClickListener {
                 saveData()
-
                 communicateNetWork(setUpSearchParam(binding.edSearch.text.toString()))
-
             }
         }
 
         loadData()
+
     }
 
     private fun saveData() {
@@ -64,7 +64,8 @@ class SearchFragment : Fragment() {
     private fun communicateNetWork(param: HashMap<String, String>) = lifecycleScope.launch {
         val responseData = NetWorkClient.searchNetWork.getSearch(param)
         binding.recyclerviewSearch.apply {
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+//            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            layoutManager = GridLayoutManager(requireContext(), 2)
             adapter = searchImageAdapter
             searchImageAdapter.data = responseData.searchDocuments
             searchImageAdapter.notifyDataSetChanged()
@@ -77,5 +78,16 @@ class SearchFragment : Fragment() {
             "page" to "1",
             "size" to "80"
         )
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun adapterOnClick(selectedItem: Document) {
+        val index = searchImageAdapter.data.indexOf(selectedItem)
+        if(index != -1) {
+            val updatedItems = searchImageAdapter.data.toMutableList()
+            updatedItems[index] = selectedItem.copy(isSelected = !selectedItem.isSelected)
+            searchImageAdapter.data = updatedItems
+            searchImageAdapter.notifyDataSetChanged()
+        }
     }
 }
