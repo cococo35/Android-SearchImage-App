@@ -43,7 +43,12 @@ class SearchImageAdapter(private val onClick:(Document) -> Unit): RecyclerView.A
 //                _items[index] = selectedItem.copy(isSelected = !selectedItem.isSelected)
 //                searchImageAdapter.notifyDataSetChanged()
 
-                if(item.isSelected) imgItemHeart.visibility = View.VISIBLE else View.GONE
+//                if(item.isSelected) imgItemHeart.visibility = View.VISIBLE else View.GONE
+                if(item.isSelected) {
+                    imgItemHeart.visibility = View.VISIBLE
+                } else {
+                    imgItemHeart.visibility = View.GONE
+                }
             }
         }
     }
