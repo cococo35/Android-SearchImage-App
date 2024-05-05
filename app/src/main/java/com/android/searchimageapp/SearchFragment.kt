@@ -25,10 +25,6 @@ class SearchFragment : Fragment() {
     private var selectedItems = listOf<Document>().toMutableList()
     private val searchImageAdapter by lazy { SearchImageAdapter{selectedItem -> adapterOnClick(selectedItem)} }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -42,13 +38,13 @@ class SearchFragment : Fragment() {
 
         binding.apply {
             btnSearch.setOnClickListener {
-                saveData()
-                communicateNetWork(setUpSearchParam(binding.edSearch.text.toString()))
-                activity?.let { it1 -> hideKeyBoard(it1) }
+                saveData()      // sharedPreference
+                communicateNetWork(setUpSearchParam(binding.edSearch.text.toString()))      // 서버 통신
+                activity?.let { it1 -> hideKeyBoard(it1) }      // 키보드 숨김
             }
         }
 
-        loadData()
+        loadData()      // sharedPreference
 
     }
 
@@ -64,7 +60,7 @@ class SearchFragment : Fragment() {
         binding.edSearch.setText(pref.getString("name", ""))
     }
 
-    @SuppressLint("NotifyDataSetChanged")
+    @SuppressLint("NotifyDataSetChanged")   // notifyItemChanged() 로 바꿔보기(성능 문제)
     private fun communicateNetWork(param: HashMap<String, String>) = lifecycleScope.launch {
         val responseData = NetWorkClient.searchNetWork.getSearch(param)
         binding.recyclerviewSearch.apply {
@@ -85,13 +81,15 @@ class SearchFragment : Fragment() {
 
     @SuppressLint("NotifyDataSetChanged")   // notifyItemChanged() 로 바꿔보기(성능 문제)
     private fun adapterOnClick(selectedItem: Document) {
-        val index = searchImageAdapter.data.indexOf(selectedItem)
+        val index = searchImageAdapter.data.indexOf(selectedItem)   // recyclerView 에서 선택한 item
         if(index != -1) {
+            // 좋아요 버튼 온오프
             val updatedItems = searchImageAdapter.data.toMutableList()
             updatedItems[index] = selectedItem.copy(isSelected = !selectedItem.isSelected)
             searchImageAdapter.data = updatedItems
-            searchImageAdapter.notifyDataSetChanged()   // 좋아요 버튼 온오프
+            searchImageAdapter.notifyDataSetChanged()
 
+            // selectedItems 에 선택한 index 넣기
             if(searchImageAdapter.data[index].isSelected) {
                 selectedItems.add(searchImageAdapter.data[index])
                 Log.d("selectedItems_add", "$selectedItems" )
