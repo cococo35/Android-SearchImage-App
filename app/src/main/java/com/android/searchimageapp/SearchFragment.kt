@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.android.searchimageapp.data.Document
+import com.android.searchimageapp.data.SelectedItems
 import com.android.searchimageapp.databinding.FragmentSearchBinding
 import com.android.searchimageapp.presentation.SearchImageAdapter
 import com.android.searchimageapp.retrofit.NetWorkClient
@@ -22,7 +23,6 @@ import kotlinx.coroutines.launch
 class SearchFragment : Fragment() {
     private lateinit var _binding: FragmentSearchBinding
     private val binding get() = _binding
-    private var selectedItems = listOf<Document>().toMutableList()
     private val searchImageAdapter by lazy { SearchImageAdapter{selectedItem -> adapterOnClick(selectedItem)} }
 
     override fun onCreateView(
@@ -91,8 +91,8 @@ class SearchFragment : Fragment() {
 
             // selectedItems 에 선택한 index 넣기
             if(searchImageAdapter.data[index].isSelected) {
-                selectedItems.add(searchImageAdapter.data[index])
-                Log.d("selectedItems_add", "$selectedItems" )
+//                selectedItems.add(searchImageAdapter.data[index])
+                SelectedItems.addItem(searchImageAdapter.data[index])
                 Toast.makeText(requireActivity(), R.string.my_storage_add, Toast.LENGTH_SHORT).show()
             }
             else {
@@ -101,10 +101,11 @@ class SearchFragment : Fragment() {
 //                        selectedItems.remove(selectedItem)
 //                        Log.d("selectedItems_remove", "$selectedItems")
 //                        Toast.makeText(requireActivity(), R.string.my_storage_remove, Toast.LENGTH_SHORT).show()
-                selectedItems =  selectedItems.filterNot{
-                    it.thumbnailUrl == searchImageAdapter.data[index].thumbnailUrl
-                }.toMutableList()
-                Log.d("selectedItems_remove", "$selectedItems")
+
+//                selectedItems =  selectedItems.filterNot{
+//                    it.thumbnailUrl == searchImageAdapter.data[index].thumbnailUrl
+//                }.toMutableList()
+                SelectedItems.removeItem(searchImageAdapter.data[index])
                 Toast.makeText(requireActivity(), R.string.my_storage_remove, Toast.LENGTH_SHORT).show()
             }
         }
