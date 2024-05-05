@@ -3,6 +3,7 @@ package com.android.searchimageapp.presentation
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.android.searchimageapp.data.Document
 import com.android.searchimageapp.databinding.RecyclerviewItemBinding
@@ -25,10 +26,6 @@ class SearchImageAdapter(private val onClick:(Document) -> Unit): RecyclerView.A
 
     override fun getItemCount(): Int {
         return data.size
-    }
-
-    override fun getItemViewType(position: Int): Int {
-        return position
     }
 
     class Holder(private val binding: RecyclerviewItemBinding): RecyclerView.ViewHolder(binding.root) {

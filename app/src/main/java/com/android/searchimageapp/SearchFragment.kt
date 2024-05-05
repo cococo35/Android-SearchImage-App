@@ -4,11 +4,13 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.android.searchimageapp.data.Document
@@ -20,7 +22,7 @@ import kotlinx.coroutines.launch
 class SearchFragment : Fragment() {
     private lateinit var _binding: FragmentSearchBinding
     private val binding get() = _binding
-//    private var items = listOf<Document>()
+    private var selectedItems = listOf<Document>().toMutableList()
     private val searchImageAdapter by lazy { SearchImageAdapter{selectedItem -> adapterOnClick(selectedItem)} }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,7 +44,7 @@ class SearchFragment : Fragment() {
             btnSearch.setOnClickListener {
                 saveData()
                 communicateNetWork(setUpSearchParam(binding.edSearch.text.toString()))
-                activity?.let { it1 -> hideBoard(it1) }
+                activity?.let { it1 -> hideKeyBoard(it1) }
             }
         }
 
@@ -81,18 +83,36 @@ class SearchFragment : Fragment() {
         )
     }
 
-    @SuppressLint("NotifyDataSetChanged")
+    @SuppressLint("NotifyDataSetChanged")   // notifyItemChanged() 로 바꿔보기(성능 문제)
     private fun adapterOnClick(selectedItem: Document) {
         val index = searchImageAdapter.data.indexOf(selectedItem)
         if(index != -1) {
             val updatedItems = searchImageAdapter.data.toMutableList()
             updatedItems[index] = selectedItem.copy(isSelected = !selectedItem.isSelected)
             searchImageAdapter.data = updatedItems
-            searchImageAdapter.notifyDataSetChanged()
+            searchImageAdapter.notifyDataSetChanged()   // 좋아요 버튼 온오프
+
+            if(searchImageAdapter.data[index].isSelected) {
+                selectedItems.add(searchImageAdapter.data[index])
+                Log.d("selectedItems_add", "$selectedItems" )
+                Toast.makeText(requireActivity(), R.string.my_storage_add, Toast.LENGTH_SHORT).show()
+            }
+            else {
+//                selectedItems.forEach {   이건 왜 안되지?
+//                    if(it.thumbnailUrl == searchImageAdapter.data[index].thumbnailUrl) {
+//                        selectedItems.remove(selectedItem)
+//                        Log.d("selectedItems_remove", "$selectedItems")
+//                        Toast.makeText(requireActivity(), R.string.my_storage_remove, Toast.LENGTH_SHORT).show()
+                selectedItems =  selectedItems.filterNot{
+                    it.thumbnailUrl == searchImageAdapter.data[index].thumbnailUrl
+                }.toMutableList()
+                Log.d("selectedItems_remove", "$selectedItems")
+                Toast.makeText(requireActivity(), R.string.my_storage_remove, Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
-    fun hideBoard(activity: Activity) {
+    private fun hideKeyBoard(activity: Activity) {
         val keyBoard = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         keyBoard.hideSoftInputFromWindow(activity.window.decorView.applicationWindowToken, 0)
     }
