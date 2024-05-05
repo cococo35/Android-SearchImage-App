@@ -93,7 +93,6 @@ class SearchFragment : Fragment() {
             if(searchImageAdapter.data[index].isSelected) {
 //                selectedItems.add(searchImageAdapter.data[index])
                 SelectedItems.addItem(searchImageAdapter.data[index])
-                Toast.makeText(requireActivity(), R.string.my_storage_add, Toast.LENGTH_SHORT).show()
             }
             else {
 //                selectedItems.forEach {   이건 왜 안되지?
@@ -106,7 +105,6 @@ class SearchFragment : Fragment() {
 //                    it.thumbnailUrl == searchImageAdapter.data[index].thumbnailUrl
 //                }.toMutableList()
                 SelectedItems.removeItem(searchImageAdapter.data[index])
-                Toast.makeText(requireActivity(), R.string.my_storage_remove, Toast.LENGTH_SHORT).show()
             }
         }
     }

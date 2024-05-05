@@ -2,8 +2,6 @@
     <string name="app_name">SearchImageApp</string>
     <string name="search_img">이미지 검색</string>
     <string name="my_storage">내 보관함</string>
-    <string name="my_storage_add">내 보관함에 저장되었습니다</string>
-    <string name="my_storage_remove">내 보관함에서 삭제되었습니다</string>
     <string name="search">검색</string>
     <string name="search_hint">검색할 이미지를 입력하세요.</string>
     <string name="sample">sample</string>
