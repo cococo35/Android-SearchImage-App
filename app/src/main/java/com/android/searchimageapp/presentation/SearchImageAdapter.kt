@@ -38,12 +38,8 @@ class SearchImageAdapter(private val onClick:(Document) -> Unit): RecyclerView.A
                     .load(item.thumbnailUrl)
                     .into(imgItem)
                 tvItemSite.text = item.siteName
-                tvItemDate.text = item.dateTime
-//                val index = _items.indexOf(selectedItem)
-//                _items[index] = selectedItem.copy(isSelected = !selectedItem.isSelected)
-//                searchImageAdapter.notifyDataSetChanged()
+                tvItemDate.text = item.dateTime.replace("T", " ").substring(0 until 19)
 
-//                if(item.isSelected) imgItemHeart.visibility = View.VISIBLE else View.GONE
                 if(item.isSelected) {
                     imgItemHeart.visibility = View.VISIBLE
                 } else {

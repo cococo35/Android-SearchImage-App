@@ -1,13 +1,14 @@
 package com.android.searchimageapp
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.android.searchimageapp.data.Document
@@ -19,7 +20,7 @@ import kotlinx.coroutines.launch
 class SearchFragment : Fragment() {
     private lateinit var _binding: FragmentSearchBinding
     private val binding get() = _binding
-    private var items = listOf<Document>()
+//    private var items = listOf<Document>()
     private val searchImageAdapter by lazy { SearchImageAdapter{selectedItem -> adapterOnClick(selectedItem)} }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,6 +42,7 @@ class SearchFragment : Fragment() {
             btnSearch.setOnClickListener {
                 saveData()
                 communicateNetWork(setUpSearchParam(binding.edSearch.text.toString()))
+                activity?.let { it1 -> hideBoard(it1) }
             }
         }
 
@@ -64,7 +66,6 @@ class SearchFragment : Fragment() {
     private fun communicateNetWork(param: HashMap<String, String>) = lifecycleScope.launch {
         val responseData = NetWorkClient.searchNetWork.getSearch(param)
         binding.recyclerviewSearch.apply {
-//            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             layoutManager = GridLayoutManager(requireContext(), 2)
             adapter = searchImageAdapter
             searchImageAdapter.data = responseData.searchDocuments
@@ -89,5 +90,10 @@ class SearchFragment : Fragment() {
             searchImageAdapter.data = updatedItems
             searchImageAdapter.notifyDataSetChanged()
         }
+    }
+
+    fun hideBoard(activity: Activity) {
+        val keyBoard = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        keyBoard.hideSoftInputFromWindow(activity.window.decorView.applicationWindowToken, 0)
     }
 }

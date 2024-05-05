@@ -16,13 +16,13 @@ data class Meta(
 )
 
 data class Document(
-    @SerializedName("collection") val collection: String,
+//    @SerializedName("collection") val collection: String,
     @SerializedName("thumbnail_url") val thumbnailUrl: String,
-    @SerializedName("image_url") val imageUrl: String,
-    @SerializedName("width") val width: Int,
-    @SerializedName("height") val height: Int,
+//    @SerializedName("image_url") val imageUrl: String,
+//    @SerializedName("width") val width: Int,
+//    @SerializedName("height") val height: Int,
     @SerializedName("display_sitename") val siteName: String,
-    @SerializedName("doc_url") val docUrl: String,
+//    @SerializedName("doc_url") val docUrl: String,
     @SerializedName("datetime") val dateTime: String,    // Datetime
     var isSelected: Boolean = false
 )
