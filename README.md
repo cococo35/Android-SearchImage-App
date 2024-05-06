@@ -4,7 +4,7 @@ Daum 이미지 검색 API 이용
 
 원하는 이미지 검색 & 저장 가능
 
-1. 초기 화면 ![image](https://github.com/cococo35/Android-SearchImage-App/assets/161271441/ef3212c2-45d0-4b11-ab8f-59716b17ec10)
+1. 초기 화면 ![image](https://github.com/cococo35/Android-SearchImage-App/assets/161271441/9f2d1ed8-7bab-4975-9cb8-9a1d632b67b2)
 
 2. 검색 화면 [Screen_recording_20240506_120248.webm](https://github.com/cococo35/Android-SearchImage-App/assets/161271441/4cd87009-fc32-4d39-8b4a-11c66a6bb7ef)
 
