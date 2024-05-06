@@ -1,4 +1,4 @@
-package com.android.searchimageapp.presentation
+package com.android.searchimageapp.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -11,12 +11,12 @@ import com.bumptech.glide.Glide
 
 class StorageAdapter(private val onClick: (Document) -> Unit): RecyclerView.Adapter<StorageAdapter.Holder>() {
     var data = SelectedItems.selectedItems
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StorageAdapter.Holder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val binding = RecyclerviewItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return Holder(binding)
     }
 
-    override fun onBindViewHolder(holder: StorageAdapter.Holder, position: Int) {
+    override fun onBindViewHolder(holder: Holder, position: Int) {
         val currentItem = data[position]
         holder.bind(currentItem)
         holder.itemView.setOnClickListener {

@@ -1,19 +1,16 @@
-package com.android.searchimageapp
+package com.android.searchimageapp.presentation.main
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import com.android.searchimageapp.data.Document
 import com.android.searchimageapp.data.SelectedItems
 import com.android.searchimageapp.databinding.FragmentStorageBinding
-import com.android.searchimageapp.presentation.SearchImageAdapter
-import com.android.searchimageapp.presentation.StorageAdapter
+import com.android.searchimageapp.presentation.adapter.StorageAdapter
 
 
 class StorageFragment : Fragment() {

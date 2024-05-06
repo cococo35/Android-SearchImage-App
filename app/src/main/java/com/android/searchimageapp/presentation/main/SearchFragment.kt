@@ -1,22 +1,20 @@
-package com.android.searchimageapp
+package com.android.searchimageapp.presentation.main
 
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.android.searchimageapp.data.Document
 import com.android.searchimageapp.data.SelectedItems
 import com.android.searchimageapp.databinding.FragmentSearchBinding
-import com.android.searchimageapp.presentation.SearchImageAdapter
+import com.android.searchimageapp.presentation.adapter.SearchImageAdapter
 import com.android.searchimageapp.retrofit.NetWorkClient
 import kotlinx.coroutines.launch
 
@@ -91,19 +89,9 @@ class SearchFragment : Fragment() {
 
             // selectedItems 에 선택한 index 넣기
             if(searchImageAdapter.data[index].isSelected) {
-//                selectedItems.add(searchImageAdapter.data[index])
                 SelectedItems.addItem(searchImageAdapter.data[index])
             }
             else {
-//                selectedItems.forEach {   이건 왜 안되지?
-//                    if(it.thumbnailUrl == searchImageAdapter.data[index].thumbnailUrl) {
-//                        selectedItems.remove(selectedItem)
-//                        Log.d("selectedItems_remove", "$selectedItems")
-//                        Toast.makeText(requireActivity(), R.string.my_storage_remove, Toast.LENGTH_SHORT).show()
-
-//                selectedItems =  selectedItems.filterNot{
-//                    it.thumbnailUrl == searchImageAdapter.data[index].thumbnailUrl
-//                }.toMutableList()
                 SelectedItems.removeItem(searchImageAdapter.data[index])
             }
         }
